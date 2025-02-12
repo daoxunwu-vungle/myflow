@@ -1,0 +1,16 @@
+name: Run on Specific Branch 1
+
+on:
+  workflow_dispatch:  # Allows manual triggering
+
+jobs:
+  run-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}  # Ensures the correct branch is checked out
+
+      - name: Run a script
+        run: echo "Running on branch ${{ github.ref }}"
