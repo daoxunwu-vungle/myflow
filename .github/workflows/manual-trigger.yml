@@ -2,6 +2,9 @@ name: Run on Specific Branch 1
 
 on:
   workflow_dispatch:  # Allows manual triggering
+  push:
+    branches:
+      - wip-init-workflow
 
 jobs:
   run-job:
