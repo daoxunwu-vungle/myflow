@@ -1,28 +1,63 @@
-name: Get PR diff by comments
+name: Add Diff File to PR Branch
 
 on:
   issue_comment:
     types: [created]
 
 jobs:
-  extract-diff:
-    if: github.event.issue.pull_request && contains(github.event.comment.body, '/run-diff')
+  add-diff-to-pr:
+    if: contains(github.event.comment.body, '/add-diff')
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Required to commit changes
+
     steps:
-      - name: Checkout PR branch
+      - name: Get PR Details
+        id: get-pr-info
+        run: |
+          PR_NUMBER=${{ github.event.issue.number }}
+          REPO=${{ github.repository }}
+
+          # Fetch PR details using GitHub API
+          PR_DATA=$(gh api repos/$REPO/pulls/$PR_NUMBER)
+
+          # Extract base and head branch
+          BASE_BRANCH=$(echo "$PR_DATA" | jq -r '.base.ref')
+          PR_BRANCH=$(echo "$PR_DATA" | jq -r '.head.ref')
+
+          echo "Base branch: $BASE_BRANCH"
+          echo "PR branch: $PR_BRANCH"
+
+          # Store as environment variables
+          echo "BASE_BRANCH=$BASE_BRANCH" >> $GITHUB_ENV
+          echo "PR_BRANCH=$PR_BRANCH" >> $GITHUB_ENV
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Checkout PR Branch
         uses: actions/checkout@v4
         with:
-          ref: refs/pull/${{ github.event.issue.number }}/head
+          ref: ${{ env.PR_BRANCH }}
           fetch-depth: 2
 
-      - name: Get PR Diff
+      - name: Generate Diff File
         run: |
-          git fetch origin ${{ github.event.pull_request.base.ref }} --depth=1
-          git diff origin/${{ github.event.pull_request.base.ref }} -- > pr-diff.txt
+          git fetch origin $BASE_BRANCH --depth=1
+          git diff origin/$BASE_BRANCH -- > pr-diff.txt
           cat pr-diff.txt
 
-      - name: Upload Diff as Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: pr-diff
-          path: pr-diff.txt
+      - name: Commit and Push Diff File
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Add the diff file
+          git add pr-diff.txt
+
+          # Commit if there are changes
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Add PR diff file"
+            git push origin $PR_BRANCH
+          fi
