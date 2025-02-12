@@ -33,3 +33,5 @@ git add .github/workflows/placeholder.yml
 git commit -m "Add placeholder GitHub Actions workflow"
 git push origin master
 ```
+
+* Add new section
