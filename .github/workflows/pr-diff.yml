@@ -1,0 +1,28 @@
+name: Get PR diff by comments
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  extract-diff:
+    if: github.event.issue.pull_request && contains(github.event.comment.body, '/run-diff')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+        with:
+          ref: refs/pull/${{ github.event.issue.number }}/head
+          fetch-depth: 2
+
+      - name: Get PR Diff
+        run: |
+          git fetch origin ${{ github.event.pull_request.base.ref }} --depth=1
+          git diff origin/${{ github.event.pull_request.base.ref }} -- > pr-diff.txt
+          cat pr-diff.txt
+
+      - name: Upload Diff as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pr-diff
+          path: pr-diff.txt
