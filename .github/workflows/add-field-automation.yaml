@@ -69,6 +69,7 @@ jobs:
         run: |
           for f in $(cat .auto/schema-files.txt)
           do
+            echo "propagate column for $f"
             schema_file=.auto/$(basename $f)
             for col_file_spec in $(automation/scripts/list.py column_files $f)
             do
