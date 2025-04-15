@@ -43,8 +43,8 @@ jobs:
       - name: Generate Diff File
         run: |
           mkdir -p .auto
-          git fetch origin $BASE_BRANCH --depth=1
-          git diff origin/$BASE_BRANCH...$PR_BRANCH --numstat -- automation/schemas | cut -f3 > .auto/schema-files.txt
+          git fetch origin $BASE_BRANCH
+          git diff origin/$BASE_BRANCH...HEAD --numstat -- automation/schemas | cut -f3 > .auto/schema-files.txt
           for f in $(cat .auto/schema-files.txt)
           do
             file=$(basename $f)
