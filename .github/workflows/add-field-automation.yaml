@@ -49,7 +49,7 @@ jobs:
       - name: Install dependencies
         run: |
           pwd
-          ls -l automation/requirements.txt
+          ls -l
           pip install -r automation/requirements.txt
 
       - name: Extract Schema changes
