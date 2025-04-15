@@ -40,7 +40,17 @@ jobs:
           ref: ${{ env.PR_BRANCH }}
           fetch-depth: 2
 
-      - name: Generate Diff File
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install -r automation/requirements.txt
+
+      - name: Extract Schema changes
         run: |
           mkdir -p .auto
           git fetch origin $BASE_BRANCH
@@ -51,16 +61,40 @@ jobs:
             cp $f .auto/${file}.new
             git checkout origin/$BASE_BRANCH -- $f
             cp $f .auto/${file}.orig
+            automation/scripts/schema_extract.py .auto/${file}.new .auto/${file}.orig .auto/${file}
           done
           git reset --hard
 
-      - name: Commit and Push Diff File
+      - name: Propagate Column code
         run: |
-          cat .auto/schema-files.txt
-          ls .auto/
-          for f in $(ls .auto/*.orig .auto/*.new)
+          for f in $(cat .auto/schema-files.txt)
           do
-            echo "The content of $f"
-            cat $f
+            schema_file=.auto/$(basename $f)
+            for col_file_spec in $(automation/scripts/list.py column_files $f)
+            do
+              automation/scripts/apply.py column_spec $col_file_spec ${schema_file}
+            done
+          done
+
+      - name: Propagate Column transform
+        run: |
+          for f in $(cat .auto/schema-files.txt)
+          do
+            schema_file=.auto/$(basename $f)
+            for col_trans_file in $(automation/scripts/list.py column_trans $f)
+            do
+              automation/scripts/apply.py column_trans $col_trans_file ${schema_file}
+            done
+          done
+
+      - name: Propagate Fixture Data
+        run: |
+          for f in $(cat .auto/schema-files.txt)
+          do
+            schema_file=.auto/$(basename $f)
+            for ci_data in $(automation/scripts/list.py fixtures $f)
+            do
+              automation/scripts/apply.py fixture $ci_data ${schema_file}
+            done
           done
 
