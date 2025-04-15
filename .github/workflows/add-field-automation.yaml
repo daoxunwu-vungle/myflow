@@ -58,7 +58,7 @@ jobs:
         run: |
           cat .auto/schema-files.txt
           ls .auto/
-          for f in $(ls .auto/*.orig)
+          for f in $(ls .auto/*.orig .auto/*.new)
           do
             echo "The content of $f"
             cat $f
