@@ -1,0 +1,17 @@
+fields:
+  - metadata: {}
+    name: adbuilder_cloud_provider
+    nullable: true
+    type: string
+  - metadata: {}
+    name: adbuilder_version
+    nullable: true
+    type: string
+  - metadata: {}
+    name: adnetwork_ids_requested
+    nullable: true
+    type:
+      containsNull: true
+      elementType: string
+      type: array
+type: struct
