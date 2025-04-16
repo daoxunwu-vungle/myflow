@@ -16,28 +16,28 @@ jobs:
         id: get-pr-info
         run: |
           pr_number=${{ github.event.issue.number }}
-          REPO=${{ github.repository }}
+          repo=${{ github.repository }}
 
           # Fetch PR details using GitHub API
-          PR_DATA=$(gh api repos/$REPO/pulls/$pr_number)
+          pr_data=$(gh api repos/$repo/pulls/$pr_number)
 
           # Extract base and head branch
-          base_branch=$(echo "$PR_DATA" | jq -r '.base.ref')
-          PR_BRANCH=$(echo "$PR_DATA" | jq -r '.head.ref')
+          base_branch=$(echo "$pr_data" | jq -r '.base.ref')
+          pr_branch=$(echo "$pr_data" | jq -r '.head.ref')
 
           echo "Base branch: $base_branch"
-          echo "PR branch: $PR_BRANCH"
+          echo "PR branch: $pr_branch"
 
           # Store as environment variables
           echo "base_branch=$base_branch" >> $GITHUB_ENV
-          echo "PR_BRANCH=$PR_BRANCH" >> $GITHUB_ENV
+          echo "pr_branch=$pr_branch" >> $GITHUB_ENV
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Checkout PR Branch
         uses: actions/checkout@v4
         with:
-          ref: ${{ env.PR_BRANCH }}
+          ref: ${{ env.pr_branch }}
           fetch-depth: 2
 
 
