@@ -92,7 +92,6 @@ def schema_subtract_struct(new_scm, old_scm):
 
 
 def main(args):
-    print(f'new_version_file: {args["<new_version_file>"]} \t old_version_file: {args["<old_version_file>"]} \t output_file: {args["<output_file>"]}')
     _LOGGER.info(f'Input new schema file {args["<new_version_file>"]}')
     _LOGGER.info(f'Input base schema file {args["<old_version_file>"]}')
     with open(args["<new_version_file>"]) as new_file,\
