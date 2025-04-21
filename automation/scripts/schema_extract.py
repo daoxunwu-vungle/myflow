@@ -40,6 +40,157 @@ def find_name(fields, name):
     return -1
 
 def schema_subtract(new_scm, old_scm):
+    """
+    >>> import yaml
+    >>> new_scm_txt = '''
+    ... fields:
+    ...   - metadata: {}
+    ...     name: adbuilder_cloud_provider
+    ...     nullable: true
+    ...     type: string
+    ...   - metadata: {}
+    ...     name: adbuilder_version
+    ...     nullable: true
+    ...     type: string
+    ...   - metadata: {}
+    ...     name: sample_rate
+    ...     nullable: true
+    ...     type: double
+    ...     source_name: sample_rate
+    ...     target_name: sample_rate
+    ...     sample_data: [0, 0.3, 0.7]
+    ...   - metadata: {}
+    ...     name: adnetwork_ids_requested
+    ...     nullable: true
+    ...     type:
+    ...       containsNull: true
+    ...       elementType: string
+    ...       type: array
+    ...   - metadata: {}
+    ...     name: placement_serve_results
+    ...     nullable: true
+    ...     type:
+    ...       containsNull: true
+    ...       elementType:
+    ...         fields:
+    ...           - metadata: {}
+    ...             name: imp_id
+    ...             nullable: true
+    ...             type: string
+    ...           - metadata: {}
+    ...             name: query
+    ...             nullable: true
+    ...             type: string
+    ...             source_name: query
+    ...             target_name: query
+    ...             sample_data: ["select * from example", "update set xx"]
+    ...           - metadata: {}
+    ...             name: is_ad_quality_checked
+    ...             nullable: true
+    ...             type: boolean
+    ...           - metadata: {}
+    ...             name: sample_list
+    ...             nullable: true
+    ...             source_name: sample_list
+    ...             target_name: sample_list
+    ...             sample_data: [["cycle"], ["alice", "bob"]]
+    ...             type:
+    ...               containsNull: true
+    ...               elementType: string
+    ...               type: array
+    ...           - metadata: {}
+    ...             name: is_acc_margin_unified
+    ...             nullable: true
+    ...             type: boolean
+    ...         type: struct
+    ... type: struct
+    ... '''
+    >>> new_scm = yaml.safe_load(new_scm_txt)
+    >>> old_scm_txt = '''
+    ... fields:
+    ...   - metadata: {}
+    ...     name: adbuilder_cloud_provider
+    ...     nullable: true
+    ...     type: string
+    ...   - metadata: {}
+    ...     name: adbuilder_version
+    ...     nullable: true
+    ...     type: string
+    ...   - metadata: {}
+    ...     name: adnetwork_ids_requested
+    ...     nullable: true
+    ...     type:
+    ...       containsNull: true
+    ...       elementType: string
+    ...       type: array
+    ...   - metadata: {}
+    ...     name: placement_serve_results
+    ...     nullable: true
+    ...     type:
+    ...       containsNull: true
+    ...       elementType:
+    ...         fields:
+    ...           - metadata: {}
+    ...             name: imp_id
+    ...             nullable: true
+    ...             type: string
+    ...           - metadata: {}
+    ...             name: is_ad_quality_checked
+    ...             nullable: true
+    ...             type: boolean
+    ...           - metadata: {}
+    ...             name: is_acc_margin_unified
+    ...             nullable: true
+    ...             type: boolean
+    ...         type: struct
+    ... type: struct
+    ... '''
+    >>> old_scm = yaml.safe_load(old_scm_txt)
+    >>> scm_diff = schema_subtract(new_scm, old_scm)
+    >>> print(yaml.dump(scm_diff))
+    fields:
+    - metadata: {}
+      name: sample_rate
+      nullable: true
+      sample_data:
+      - 0
+      - 0.3
+      - 0.7
+      source_name: sample_rate
+      target_name: sample_rate
+      type: double
+    - metadata: {}
+      name: placement_serve_results
+      nullable: true
+      type:
+        containsNull: true
+        elementType:
+          fields:
+          - metadata: {}
+            name: query
+            nullable: true
+            sample_data:
+            - select * from example
+            - update set xx
+            source_name: query
+            target_name: query
+            type: string
+          - metadata: {}
+            name: sample_list
+            nullable: true
+            sample_data:
+            - - cycle
+            - - alice
+              - bob
+            source_name: sample_list
+            target_name: sample_list
+            type:
+              containsNull: true
+              elementType: string
+              type: array
+          type: struct
+    type: struct
+    """
     if isinstance(new_scm, str):
         assert new_scm == old_scm, f"string type must be matched"
         _LOGGER.debug(f"schema_subtract: applied subtract on matched type {new_scm}")
