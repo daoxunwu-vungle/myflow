@@ -8,6 +8,13 @@ fields:
     nullable: true
     type: string
   - metadata: {}
+    name: sample_rate
+    nullable: true
+    type: double
+    source_name: sample_rate
+    target_name: sample_rate
+    sample_data: [0, 0.3, 0.7]
+  - metadata: {}
     name: adnetwork_ids_requested
     nullable: true
     type:
