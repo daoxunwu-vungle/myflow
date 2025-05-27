@@ -13,7 +13,7 @@ jobs:
     if: contains(github.event.comment.body, '/describe-deploy')
     runs-on: ubuntu-latest
     env:
-      GH_TOKEN: {secrets.GH_TOKEN}
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
     steps:
       - name: Get PR Details
