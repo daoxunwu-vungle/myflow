@@ -80,6 +80,9 @@ jobs:
           cat .auto/sql-ddl-comments.txt
           for f in $(cat .auto/schema-files.txt)
           do
+            if [[ -z "${param// }" ]]; then
+              continue
+            fi
             echo "Handle schema file $f"
             schema_diff_file=.auto/$(basename $f)
             for sql_file_spec in $(koncis/automation/show.py iceberg_tables $f)
