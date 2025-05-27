@@ -1,0 +1,122 @@
+schemas:
+  - name: ex-jaeger-transaction
+    file: automation/schemas/ex-jaeger-transaction.yaml
+    col_mappings:
+      - src/main/resources/lena/col_maps/edsp_deliveries.json
+    col_files:
+      - src/main/resources/lena/columns/edsp_deliveries.json
+    iceberg_table_schemas:
+      - file: src/main/resources/lena/sql/edsp/edsp_deliveries.template
+        prod_tables:
+          - lena.edsp_deliveries
+          - lena.edsp_deliveries_compact_hourly
+      - file: src/main/resources/lena/sql/edsp/edsp_tpats_click_enriched.template
+        col_suffix: _at_delivery
+        prod_tables:
+          - lena.edsp_tpats_click_enriched
+      - file: src/main/resources/lena/sql/edsp/edsp_tpats_complete_enriched.template
+        col_suffix: _at_delivery
+        prod_tables:
+          - lena.edsp_tpats_complete_enriched
+      - file: src/main/resources/lena/sql/edsp/edsp_tpats_start_reattribute.template
+        col_suffix: _at_delivery
+        prod_tables:
+          - lena.edsp_tpats_start_reattribute
+      - file: src/main/resources/lena/sql/edsp/edsp_tpats_start_staging.template
+        col_suffix: _at_delivery
+      - file: src/main/resources/lena/sql/edsp/edsp_tpats_start_enriched.template
+        col_suffix: _at_delivery
+        prod_tables:
+          - lena.edsp_tpats_start_enriched
+      - file: src/main/resources/lena/sql/edsp/edsp_tpats_start_hbp_enriched.template
+        col_suffix: _at_delivery
+        prod_tables:
+          - lena.edsp_tpats_start_hbp_enriched
+      - file: src/main/resources/lena/sql/edsp/accelerate_installs_enriched.template
+        col_suffix: _at_delivery
+        prod_tables:
+          - lena.accelerate_installs_enriched
+    ci_fixture:
+      - ci/edsp_deliveries_ingestion/fixtures/ex-jaeger-transaction.txt
+      - ci/edsp_accelerate_installs_attribution/fixtures/ex-jaeger-transaction-2023-01-06-11.txt
+      - ci/edsp_accelerate_installs_attribution/fixtures/ex-jaeger-transaction-2023-01-06-12.txt
+      - ci/edsp_accelerate_installs_attribution/fixtures/ex-jaeger-transaction-2023-01-06-13.txt
+      - ci/raw_events_aggregation/fixtures/ex-jaeger-transaction.txt
+      - ci/hbp_aggregation/fixtures/ex-jaeger-transaction-hbp_report.txt
+    ci_fixture_derived:
+      - file: ci/edsp_attribution/fixtures/edsp_deliveries.txt
+        col_suffix:
+    litepipes:
+      - lite-edsp-deli-compact-hourly
+
+  - name: as-tpats
+    file: automation/schemas/as-tpats.yaml
+    col_mappings:
+    col_files:
+      - src/main/resources/lena/columns/as-tpats.json
+    iceberg_table_schemas:
+      - file: src/main/resources/lena/sql/edsp/edsp_tpats_click_enriched.template
+        col_suffix: _at_tpat_click
+        prod_tables:
+          - lena.edsp_tpats_click_enriched
+      - file: src/main/resources/lena/sql/edsp/edsp_tpats_complete_enriched.template
+        col_suffix: _at_tpat_complete
+        prod_tables:
+          - lena.edsp_tpats_complete_enriched
+      - file: src/main/resources/lena/sql/edsp/edsp_tpats_start_reattribute.template
+        col_suffix: _at_tpat
+        prod_tables:
+          - lena.edsp_tpats_start_reattribute
+      - file: src/main/resources/lena/sql/edsp/edsp_tpats_reattribute.template
+        prod_tables:
+          - lena.edsp_tpats_reattribute
+      - file: src/main/resources/lena/sql/edsp/edsp_tpats_staging.template
+      - file: src/main/resources/lena/sql/edsp/edsp_tpats_start_staging.template
+        col_suffix: _at_tpat
+      - file: src/main/resources/lena/sql/edsp/edsp_tpats_start_enriched.template
+        col_suffix: _at_tpat_start
+        prod_tables:
+          - lena.edsp_tpats_start_enriched
+      - file: src/main/resources/lena/sql/edsp/edsp_tpats_start_hbp_enriched.template
+        col_suffix: _at_tpat_start
+        prod_tables:
+          - lena.edsp_tpats_start_hbp_enriched
+    ci_fixture:
+      - ci/edsp_attribution/fixtures/as-tpats.txt
+    ci_fixture_derived:
+    litepipes:
+
+  - name: hb-notifications
+    file: automation/schemas/hb-notifications.yaml
+    col_mappings:
+    col_files:
+      - src/main/resources/lena/columns/hbp_wins.json
+    iceberg_table_schemas:
+      - file: src/main/resources/lena/sql/hbp_win/hbp_wins.template
+        prod_tables:
+          - lena.hbp_wins
+          - lena.hbp_wins_compact_hourly
+      - file: src/main/resources/lena/sql/edsp/edsp_tpats_start_hbp_enriched.template
+        col_suffix: _at_hbp_win
+        prod_tables:
+          - lena.edsp_tpats_start_hbp_enriched
+    ci_fixture:
+    ci_fixture_derived:
+      - file: ci/edsp_attribution/fixtures/hbp_wins.txt
+
+  - name: accelerate-installs
+    file: automation/schemas/accelerate-installs.yaml
+    col_mappings:
+    col_files:
+      - src/main/resources/lena/columns/accelerate_installs.json
+    iceberg_table_schemas:
+      - file: src/main/resources/lena/sql/edsp/accelerate_installs_enriched.template
+        prod_tables:
+          - lena.accelerate_installs_enriched
+      - file: src/main/resources/lena/sql/edsp/accelerate_installs_reattribute.template
+        prod_tables:
+          - lena.accelerate_installs_reattribute_bucket
+      - file: src/main/resources/lena/sql/edsp/accelerate_installs_staging.template
+    ci_fixture:
+      - ci/edsp_accelerate_installs_attribution/fixtures/accelerate-installs-2023-01-06-11.txt
+    ci_fixture_derived:

@@ -1,0 +1,102 @@
+name: Describe Deployment DDL
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  deploy-hints-for-pr:
+    if: contains(github.event.comment.body, '/describe-deploy')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get PR Details
+        id: get-pr-info
+        run: |
+          pr_number=${{ github.event.issue.number }}
+          repo=${{ github.repository }}
+
+          # Fetch PR details using GitHub API
+          pr_data=$(gh api repos/$repo/pulls/$pr_number)
+
+          # Extract base and head branch
+          base_branch=$(echo "$pr_data" | jq -r '.base.ref')
+          pr_branch=$(echo "$pr_data" | jq -r '.head.ref')
+
+          echo "Base branch: $base_branch"
+          echo "PR branch: $pr_branch"
+
+          # Store as environment variables
+          echo "base_branch=$base_branch" >> $GITHUB_ENV
+          echo "pr_branch=$pr_branch" >> $GITHUB_ENV
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Checkout PR Branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.pr_branch }}
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Cache Python Library
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('koncis/requirements-automation.txt') }}
+
+      - name: Install dependencies
+        run: |
+          pip install -r koncis/requirements-automation.txt
+
+      - name: Extract Schema changes
+        run: |
+          mkdir -p .auto
+          git fetch origin $base_branch
+          git diff origin/$base_branch...HEAD --numstat -- automation/schemas | cut -f3 > .auto/schema-files.txt
+          for f in $(cat .auto/schema-files.txt)
+          do
+            file=$(basename $f)
+            cp $f .auto/${file}.new
+            git checkout origin/$base_branch -- $f
+            cp $f .auto/${file}.orig
+            koncis/automation/schema_subtract.py .auto/${file}.new .auto/${file}.orig .auto/${file}
+          done
+          git reset --hard
+
+      - name: Propagate SQL DDL comments
+        run: |
+          echo "Deployment SQL DDL:" > .auto/sql-ddl-comments.txt
+          echo "```" >> .auto/sql-ddl-comments.txt
+          for f in $(cat .auto/schema-files.txt)
+          do
+            schema_diff_file=.auto/$(basename $f)
+            for sql_file_spec in $(koncis/automation/show.py iceberg_tables $f)
+            do
+              koncis/automation/propagate.py sql_ddl --diff=$schema_diff_file $sql_file_spec >> .auto/sql-ddl-comments.txt
+            done
+          done
+          echo "```" >> .auto/sql-ddl-comments.txt
+          gh pr comment ${{ github.event.issue.number }} --body-file .auto/sql-ddl-comments.txt
+
+      - name: Propagate Litepipe comments
+        run: |
+          echo "Please also check following litepipe:" > .auto/litepipe-comments.txt
+          echo "```" >> .auto/litepipe-comments.txt
+          for f in $(cat .auto/schema-files.txt)
+          do
+            for lite_pipe in $(koncis/automation/show.py litepipe $f)
+            do
+              echo $lite_pipe >> .auto/litepipe-comments.txt
+            done
+          done
+          echo "```" >> .auto/litepipe-comments.txt
+          gh pr comment ${{ github.event.issue.number }} --body-file .auto/litepipe-comments.txt
