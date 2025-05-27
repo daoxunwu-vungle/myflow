@@ -83,13 +83,14 @@ jobs:
             if [ -z "${f// }" ]; then
               echo "Ignore empty filename"
               continue
+            else
+              echo "Handle schema file $f"
+              schema_diff_file=.auto/$(basename $f)
+              for sql_file_spec in $(koncis/automation/show.py iceberg_tables $f)
+              do
+                koncis/automation/propagate.py sql_ddl --diff=$schema_diff_file $sql_file_spec >> .auto/sql-ddl-comments.txt
+              done
             fi
-            echo "Handle schema file $f"
-            schema_diff_file=.auto/$(basename $f)
-            for sql_file_spec in $(koncis/automation/show.py iceberg_tables $f)
-            do
-              koncis/automation/propagate.py sql_ddl --diff=$schema_diff_file $sql_file_spec >> .auto/sql-ddl-comments.txt
-            done
           done
           echo "```" >> .auto/sql-ddl-comments.txt
           gh pr comment ${{ github.event.issue.number }} --body-file .auto/sql-ddl-comments.txt
