@@ -80,7 +80,7 @@ jobs:
           cat .auto/sql-ddl-comments.txt
           for f in $(cat .auto/schema-files.txt)
           do
-            if [[ -z "${param// }" ]]; then
+            if [[ -z "${f// }" ]]; then
               continue
             fi
             echo "Handle schema file $f"
