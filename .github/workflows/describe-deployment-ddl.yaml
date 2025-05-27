@@ -78,7 +78,7 @@ jobs:
         run: |
           cat .auto/schema-files.txt
           echo "Deployment SQL DDL:" > .auto/sql-ddl-comments.txt
-          echo "```" >> .auto/sql-ddl-comments.txt
+          echo "\`\`\`" >> .auto/sql-ddl-comments.txt
           cat .auto/sql-ddl-comments.txt
           for f in $(cat .auto/schema-files.txt)
           do
@@ -94,13 +94,13 @@ jobs:
               done
             fi
           done
-          echo "```" >> .auto/sql-ddl-comments.txt
+          echo "\`\`\`" >> .auto/sql-ddl-comments.txt
           gh pr comment ${{ github.event.issue.number }} --body-file .auto/sql-ddl-comments.txt
 
       - name: Propagate Litepipe comments
         run: |
           echo "Please also check following litepipe:" > .auto/litepipe-comments.txt
-          echo "```" >> .auto/litepipe-comments.txt
+          echo "\`\`\`" >> .auto/litepipe-comments.txt
           for f in $(cat .auto/schema-files.txt)
           do
             for lite_pipe in $(koncis/automation/show.py litepipe $f)
@@ -108,5 +108,5 @@ jobs:
               echo $lite_pipe >> .auto/litepipe-comments.txt
             done
           done
-          echo "```" >> .auto/litepipe-comments.txt
+          echo "\`\`\`" >> .auto/litepipe-comments.txt
           gh pr comment ${{ github.event.issue.number }} --body-file .auto/litepipe-comments.txt
