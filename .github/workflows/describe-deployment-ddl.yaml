@@ -14,6 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
     steps:
       - name: Get PR Details
@@ -35,8 +36,6 @@ jobs:
           # Store as environment variables
           echo "base_branch=$base_branch" >> $GITHUB_ENV
           echo "pr_branch=$pr_branch" >> $GITHUB_ENV
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Checkout PR Branch
         uses: actions/checkout@v4
