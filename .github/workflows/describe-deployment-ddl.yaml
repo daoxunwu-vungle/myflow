@@ -74,10 +74,12 @@ jobs:
 
       - name: Propagate SQL DDL comments
         run: |
+          cat .auto/schema-files.txt
           echo "Deployment SQL DDL:" > .auto/sql-ddl-comments.txt
           echo "```" >> .auto/sql-ddl-comments.txt
           for f in $(cat .auto/schema-files.txt)
           do
+            echo "process $f"
             schema_diff_file=.auto/$(basename $f)
             for sql_file_spec in $(koncis/automation/show.py iceberg_tables $f)
             do
