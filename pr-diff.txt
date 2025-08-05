@@ -204,10 +204,10 @@ index ace412a..586a62a 100755
          _LOGGER.debug(f"schema_subtract: applied subtract on matched type {new_scm}")
 diff --git a/pr-diff.txt b/pr-diff.txt
 new file mode 100644
-index 0000000..4f628f6
+index 0000000..c7a46cd
 --- /dev/null
 +++ b/pr-diff.txt
-@@ -0,0 +1,1674 @@
+@@ -0,0 +1,1884 @@
 +diff --git a/automation/schemas/sample.yaml b/automation/schemas/sample.yaml
 +index a245a64..5abe9a2 100644
 +--- a/automation/schemas/sample.yaml
@@ -414,10 +414,10 @@ index 0000000..4f628f6
 +         _LOGGER.debug(f"schema_subtract: applied subtract on matched type {new_scm}")
 +diff --git a/pr-diff.txt b/pr-diff.txt
 +new file mode 100644
-+index 0000000..49b36eb
++index 0000000..4f628f6
 +--- /dev/null
 ++++ b/pr-diff.txt
-+@@ -0,0 +1,1464 @@
++@@ -0,0 +1,1674 @@
 ++diff --git a/automation/schemas/sample.yaml b/automation/schemas/sample.yaml
 ++index a245a64..5abe9a2 100644
 ++--- a/automation/schemas/sample.yaml
@@ -624,10 +624,10 @@ index 0000000..4f628f6
 ++         _LOGGER.debug(f"schema_subtract: applied subtract on matched type {new_scm}")
 ++diff --git a/pr-diff.txt b/pr-diff.txt
 ++new file mode 100644
-++index 0000000..99c18a3
+++index 0000000..49b36eb
 ++--- /dev/null
 +++++ b/pr-diff.txt
-++@@ -0,0 +1,1254 @@
+++@@ -0,0 +1,1464 @@
 +++diff --git a/automation/schemas/sample.yaml b/automation/schemas/sample.yaml
 +++index a245a64..5abe9a2 100644
 +++--- a/automation/schemas/sample.yaml
@@ -834,10 +834,10 @@ index 0000000..4f628f6
 +++         _LOGGER.debug(f"schema_subtract: applied subtract on matched type {new_scm}")
 +++diff --git a/pr-diff.txt b/pr-diff.txt
 +++new file mode 100644
-+++index 0000000..38a7612
++++index 0000000..99c18a3
 +++--- /dev/null
 ++++++ b/pr-diff.txt
-+++@@ -0,0 +1,1044 @@
++++@@ -0,0 +1,1254 @@
 ++++diff --git a/automation/schemas/sample.yaml b/automation/schemas/sample.yaml
 ++++index a245a64..5abe9a2 100644
 ++++--- a/automation/schemas/sample.yaml
@@ -1044,10 +1044,10 @@ index 0000000..4f628f6
 ++++         _LOGGER.debug(f"schema_subtract: applied subtract on matched type {new_scm}")
 ++++diff --git a/pr-diff.txt b/pr-diff.txt
 ++++new file mode 100644
-++++index 0000000..737ffff
+++++index 0000000..38a7612
 ++++--- /dev/null
 +++++++ b/pr-diff.txt
-++++@@ -0,0 +1,834 @@
+++++@@ -0,0 +1,1044 @@
 +++++diff --git a/automation/schemas/sample.yaml b/automation/schemas/sample.yaml
 +++++index a245a64..5abe9a2 100644
 +++++--- a/automation/schemas/sample.yaml
@@ -1254,10 +1254,10 @@ index 0000000..4f628f6
 +++++         _LOGGER.debug(f"schema_subtract: applied subtract on matched type {new_scm}")
 +++++diff --git a/pr-diff.txt b/pr-diff.txt
 +++++new file mode 100644
-+++++index 0000000..b0d02c0
++++++index 0000000..737ffff
 +++++--- /dev/null
 ++++++++ b/pr-diff.txt
-+++++@@ -0,0 +1,624 @@
++++++@@ -0,0 +1,834 @@
 ++++++diff --git a/automation/schemas/sample.yaml b/automation/schemas/sample.yaml
 ++++++index a245a64..5abe9a2 100644
 ++++++--- a/automation/schemas/sample.yaml
@@ -1464,10 +1464,10 @@ index 0000000..4f628f6
 ++++++         _LOGGER.debug(f"schema_subtract: applied subtract on matched type {new_scm}")
 ++++++diff --git a/pr-diff.txt b/pr-diff.txt
 ++++++new file mode 100644
-++++++index 0000000..9a44bbd
+++++++index 0000000..b0d02c0
 ++++++--- /dev/null
 +++++++++ b/pr-diff.txt
-++++++@@ -0,0 +1,414 @@
+++++++@@ -0,0 +1,624 @@
 +++++++diff --git a/automation/schemas/sample.yaml b/automation/schemas/sample.yaml
 +++++++index a245a64..5abe9a2 100644
 +++++++--- a/automation/schemas/sample.yaml
@@ -1674,10 +1674,10 @@ index 0000000..4f628f6
 +++++++         _LOGGER.debug(f"schema_subtract: applied subtract on matched type {new_scm}")
 +++++++diff --git a/pr-diff.txt b/pr-diff.txt
 +++++++new file mode 100644
-+++++++index 0000000..3d3c401
++++++++index 0000000..9a44bbd
 +++++++--- /dev/null
 ++++++++++ b/pr-diff.txt
-+++++++@@ -0,0 +1,204 @@
++++++++@@ -0,0 +1,414 @@
 ++++++++diff --git a/automation/schemas/sample.yaml b/automation/schemas/sample.yaml
 ++++++++index a245a64..5abe9a2 100644
 ++++++++--- a/automation/schemas/sample.yaml
@@ -1882,3 +1882,213 @@ index 0000000..4f628f6
 ++++++++     if isinstance(new_scm, str):
 ++++++++         assert new_scm == old_scm, f"string type must be matched"
 ++++++++         _LOGGER.debug(f"schema_subtract: applied subtract on matched type {new_scm}")
+++++++++diff --git a/pr-diff.txt b/pr-diff.txt
+++++++++new file mode 100644
+++++++++index 0000000..3d3c401
+++++++++--- /dev/null
++++++++++++ b/pr-diff.txt
+++++++++@@ -0,0 +1,204 @@
++++++++++diff --git a/automation/schemas/sample.yaml b/automation/schemas/sample.yaml
++++++++++index a245a64..5abe9a2 100644
++++++++++--- a/automation/schemas/sample.yaml
+++++++++++++ b/automation/schemas/sample.yaml
++++++++++@@ -7,6 +7,13 @@ fields:
++++++++++     name: adbuilder_version
++++++++++     nullable: true
++++++++++     type: string
+++++++++++  - metadata: {}
+++++++++++    name: sample_rate
+++++++++++    nullable: true
+++++++++++    type: double
+++++++++++    source_name: sample_rate
+++++++++++    target_name: sample_rate
+++++++++++    sample_data: [0, 0.3, 0.7]
++++++++++   - metadata: {}
++++++++++     name: adnetwork_ids_requested
++++++++++     nullable: true
++++++++++diff --git a/automation/scripts/apply.py b/automation/scripts/apply.py
++++++++++index 1069a13..0b33d07 100755
++++++++++--- a/automation/scripts/apply.py
+++++++++++++ b/automation/scripts/apply.py
++++++++++@@ -1,4 +1,7 @@
++++++++++ #! /usr/bin/env python
++++++++++ 
+++++++++++def test_placeholder():
+++++++++++    pass
+++++++++++
++++++++++ if __name__ == "__main__":
++++++++++     print("runs apply.py")
++++++++++diff --git a/automation/scripts/list.py b/automation/scripts/list.py
++++++++++index 14bb46f..e933296 100755
++++++++++--- a/automation/scripts/list.py
+++++++++++++ b/automation/scripts/list.py
++++++++++@@ -1,4 +1,7 @@
++++++++++ #! /usr/bin/env python
++++++++++ 
+++++++++++def test_placeholder():
+++++++++++    pass
+++++++++++
++++++++++ if __name__ == "__main__":
++++++++++     print("runs list.py")
++++++++++diff --git a/automation/scripts/schema_extract.py b/automation/scripts/schema_extract.py
++++++++++index ace412a..586a62a 100755
++++++++++--- a/automation/scripts/schema_extract.py
+++++++++++++ b/automation/scripts/schema_extract.py
++++++++++@@ -40,6 +40,157 @@ def find_name(fields, name):
++++++++++     return -1
++++++++++ 
++++++++++ def schema_subtract(new_scm, old_scm):
+++++++++++    """
+++++++++++    >>> import yaml
+++++++++++    >>> new_scm_txt = '''
+++++++++++    ... fields:
+++++++++++    ...   - metadata: {}
+++++++++++    ...     name: adbuilder_cloud_provider
+++++++++++    ...     nullable: true
+++++++++++    ...     type: string
+++++++++++    ...   - metadata: {}
+++++++++++    ...     name: adbuilder_version
+++++++++++    ...     nullable: true
+++++++++++    ...     type: string
+++++++++++    ...   - metadata: {}
+++++++++++    ...     name: sample_rate
+++++++++++    ...     nullable: true
+++++++++++    ...     type: double
+++++++++++    ...     source_name: sample_rate
+++++++++++    ...     target_name: sample_rate
+++++++++++    ...     sample_data: [0, 0.3, 0.7]
+++++++++++    ...   - metadata: {}
+++++++++++    ...     name: adnetwork_ids_requested
+++++++++++    ...     nullable: true
+++++++++++    ...     type:
+++++++++++    ...       containsNull: true
+++++++++++    ...       elementType: string
+++++++++++    ...       type: array
+++++++++++    ...   - metadata: {}
+++++++++++    ...     name: placement_serve_results
+++++++++++    ...     nullable: true
+++++++++++    ...     type:
+++++++++++    ...       containsNull: true
+++++++++++    ...       elementType:
+++++++++++    ...         fields:
+++++++++++    ...           - metadata: {}
+++++++++++    ...             name: imp_id
+++++++++++    ...             nullable: true
+++++++++++    ...             type: string
+++++++++++    ...           - metadata: {}
+++++++++++    ...             name: query
+++++++++++    ...             nullable: true
+++++++++++    ...             type: string
+++++++++++    ...             source_name: query
+++++++++++    ...             target_name: query
+++++++++++    ...             sample_data: ["select * from example", "update set xx"]
+++++++++++    ...           - metadata: {}
+++++++++++    ...             name: is_ad_quality_checked
+++++++++++    ...             nullable: true
+++++++++++    ...             type: boolean
+++++++++++    ...           - metadata: {}
+++++++++++    ...             name: sample_list
+++++++++++    ...             nullable: true
+++++++++++    ...             source_name: sample_list
+++++++++++    ...             target_name: sample_list
+++++++++++    ...             sample_data: [["cycle"], ["alice", "bob"]]
+++++++++++    ...             type:
+++++++++++    ...               containsNull: true
+++++++++++    ...               elementType: string
+++++++++++    ...               type: array
+++++++++++    ...           - metadata: {}
+++++++++++    ...             name: is_acc_margin_unified
+++++++++++    ...             nullable: true
+++++++++++    ...             type: boolean
+++++++++++    ...         type: struct
+++++++++++    ... type: struct
+++++++++++    ... '''
+++++++++++    >>> new_scm = yaml.safe_load(new_scm_txt)
+++++++++++    >>> old_scm_txt = '''
+++++++++++    ... fields:
+++++++++++    ...   - metadata: {}
+++++++++++    ...     name: adbuilder_cloud_provider
+++++++++++    ...     nullable: true
+++++++++++    ...     type: string
+++++++++++    ...   - metadata: {}
+++++++++++    ...     name: adbuilder_version
+++++++++++    ...     nullable: true
+++++++++++    ...     type: string
+++++++++++    ...   - metadata: {}
+++++++++++    ...     name: adnetwork_ids_requested
+++++++++++    ...     nullable: true
+++++++++++    ...     type:
+++++++++++    ...       containsNull: true
+++++++++++    ...       elementType: string
+++++++++++    ...       type: array
+++++++++++    ...   - metadata: {}
+++++++++++    ...     name: placement_serve_results
+++++++++++    ...     nullable: true
+++++++++++    ...     type:
+++++++++++    ...       containsNull: true
+++++++++++    ...       elementType:
+++++++++++    ...         fields:
+++++++++++    ...           - metadata: {}
+++++++++++    ...             name: imp_id
+++++++++++    ...             nullable: true
+++++++++++    ...             type: string
+++++++++++    ...           - metadata: {}
+++++++++++    ...             name: is_ad_quality_checked
+++++++++++    ...             nullable: true
+++++++++++    ...             type: boolean
+++++++++++    ...           - metadata: {}
+++++++++++    ...             name: is_acc_margin_unified
+++++++++++    ...             nullable: true
+++++++++++    ...             type: boolean
+++++++++++    ...         type: struct
+++++++++++    ... type: struct
+++++++++++    ... '''
+++++++++++    >>> old_scm = yaml.safe_load(old_scm_txt)
+++++++++++    >>> scm_diff = schema_subtract(new_scm, old_scm)
+++++++++++    >>> print(yaml.dump(scm_diff))
+++++++++++    fields:
+++++++++++    - metadata: {}
+++++++++++      name: sample_rate
+++++++++++      nullable: true
+++++++++++      sample_data:
+++++++++++      - 0
+++++++++++      - 0.3
+++++++++++      - 0.7
+++++++++++      source_name: sample_rate
+++++++++++      target_name: sample_rate
+++++++++++      type: double
+++++++++++    - metadata: {}
+++++++++++      name: placement_serve_results
+++++++++++      nullable: true
+++++++++++      type:
+++++++++++        containsNull: true
+++++++++++        elementType:
+++++++++++          fields:
+++++++++++          - metadata: {}
+++++++++++            name: query
+++++++++++            nullable: true
+++++++++++            sample_data:
+++++++++++            - select * from example
+++++++++++            - update set xx
+++++++++++            source_name: query
+++++++++++            target_name: query
+++++++++++            type: string
+++++++++++          - metadata: {}
+++++++++++            name: sample_list
+++++++++++            nullable: true
+++++++++++            sample_data:
+++++++++++            - - cycle
+++++++++++            - - alice
+++++++++++              - bob
+++++++++++            source_name: sample_list
+++++++++++            target_name: sample_list
+++++++++++            type:
+++++++++++              containsNull: true
+++++++++++              elementType: string
+++++++++++              type: array
+++++++++++          type: struct
+++++++++++    type: struct
+++++++++++    """
++++++++++     if isinstance(new_scm, str):
++++++++++         assert new_scm == old_scm, f"string type must be matched"
++++++++++         _LOGGER.debug(f"schema_subtract: applied subtract on matched type {new_scm}")
