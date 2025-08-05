@@ -18,8 +18,8 @@ jobs:
           PR_NUMBER=${{ github.event.issue.number }}
           REPO=${{ github.repository }}
 
-	  body=${{ github.event.comment.body }}
-	  path="${body#* }"
+          body=${{ github.event.comment.body }}
+          path="${body#* }"
           # Fetch PR details using GitHub API
           PR_DATA=$(gh api repos/$REPO/pulls/$PR_NUMBER)
 
@@ -29,12 +29,12 @@ jobs:
 
           echo "Base branch: $BASE_BRANCH"
           echo "PR branch: $PR_BRANCH"
-	  echo "S3 Path: $path"
+          echo "S3 Path: $path"
 
           # Store as environment variables
           echo "BASE_BRANCH=$BASE_BRANCH" >> $GITHUB_ENV
           echo "PR_BRANCH=$PR_BRANCH" >> $GITHUB_ENV
-	  echo "s3_path=$path" >> $GITHUB_ENV
+          echo "s3_path=$path" >> $GITHUB_ENV
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
