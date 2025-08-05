@@ -19,7 +19,8 @@ jobs:
           REPO=${{ github.repository }}
 
           body="${{ github.event.comment.body }}"
-          second="${body#*[:space:]}"
+          trimmed="${body#"${body%%[![:space:]]*}"}"
+          second="${trimmed#*[:space:]}"
           awspath="${second%%[:space:]*}"
           # Fetch PR details using GitHub API
           PR_DATA=$(gh api repos/$REPO/pulls/$PR_NUMBER)
