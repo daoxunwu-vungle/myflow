@@ -18,11 +18,7 @@ jobs:
           PR_NUMBER=${{ github.event.issue.number }}
           REPO=${{ github.repository }}
 
-          body="${{ github.event.comment.body }}"
-          awspath="${body#* }"
-          shopt -s extglob
-          awspath="${awspath##*([:space:])}"
-          awspath="${awspath%%*([:space:])}"
+          awspath=${{ split(github.event.comment.body, ' ')[1] }}
           # Fetch PR details using GitHub API
           PR_DATA=$(gh api repos/$REPO/pulls/$PR_NUMBER)
 
