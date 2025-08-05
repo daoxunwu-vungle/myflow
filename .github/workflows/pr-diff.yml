@@ -20,7 +20,9 @@ jobs:
 
           body="${{ github.event.comment.body }}"
           awspath="${body#* }"
-          #awspath="test/path"
+          shopt -s extglob
+          awspath="${awspath##*([:space:])}"
+          awspath="${awspath%%*([:space:])}"
           # Fetch PR details using GitHub API
           PR_DATA=$(gh api repos/$REPO/pulls/$PR_NUMBER)
 
