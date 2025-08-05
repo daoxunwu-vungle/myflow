@@ -18,7 +18,7 @@ jobs:
           PR_NUMBER=${{ github.event.issue.number }}
           REPO=${{ github.repository }}
 
-	  set -e -x
+          set -e -x
           body="${{ github.event.comment.body }}"
           trimmed="${body#"${body%%[![:space:]]*}"}"
           second="${trimmed#*[[:space:]]}"
